@@ -49,6 +49,9 @@
 #include "navigation/navigation.h"
 #include "navigation/navigation_private.h"
 
+#include "programming/logic_condition.h"
+#include "programming/global_variables.h"
+
 #include "rx/rx.h"
 
 // Base frequencies for smoothing pitch and roll
@@ -257,7 +260,7 @@ static void calculateVirtualPositionTarget_FW(float trackingPeriod)
     // If angular visibility of a waypoint is less than 30deg, don't calculate circular loiter, go straight to the target
     #define TAN_15DEG    0.26795f
     bool needToCalculateCircularLoiter = (isApproachingLastWaypoint() || isWaypointWait())
-                                            && (distanceToActualTarget <= (navConfig()->fw.loiter_radius / TAN_15DEG))
+                                            && (distanceToActualTarget <= (getLoiterRadiusOverride(navConfig()->fw.loiter_radius) / TAN_15DEG))
                                             && (distanceToActualTarget > 50.0f)
                                             && !FLIGHT_MODE(NAV_CRUISE_MODE);
 
@@ -266,8 +269,8 @@ static void calculateVirtualPositionTarget_FW(float trackingPeriod)
         // We are closing in on a waypoint, calculate circular loiter
         float loiterAngle = atan2_approx(-posErrorY, -posErrorX) + DEGREES_TO_RADIANS(loiterDirection() * 45.0f);
 
-        float loiterTargetX = posControl.desiredState.pos.x + navConfig()->fw.loiter_radius * cos_approx(loiterAngle);
-        float loiterTargetY = posControl.desiredState.pos.y + navConfig()->fw.loiter_radius * sin_approx(loiterAngle);
+        float loiterTargetX = posControl.desiredState.pos.x + getLoiterRadiusOverride(navConfig()->fw.loiter_radius) * cos_approx(loiterAngle);
+        float loiterTargetY = posControl.desiredState.pos.y + getLoiterRadiusOverride(navConfig()->fw.loiter_radius) * sin_approx(loiterAngle);
 
         // We have temporary loiter target. Recalculate distance and position error
         posErrorX = loiterTargetX - navGetCurrentActualPositionAndVelocity()->pos.x;

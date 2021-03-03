@@ -73,7 +73,7 @@ IPF can be edited using INAV Configurator user interface, of via CLI
 | 37            | MAP_OUTPUT         | Scales `Operand A` from [`0` : `1000`] to [`0` : `Operand B`]. Note: input will be constrained and then scaled |
 | 38            | RC_CHANNEL_OVERRIDE | Overrides channel set by `Operand A` to value of `Operand B` |
 | 39            | SET_HEADING_TARGET  | Sets heading-hold target to `Operand A`, in degrees. Value wraps-around. |
-
+| 40            | LOITER_RADIUS_OVERRIDE     | Sets the loiter radius in `Operand A`. Accepted values are `0-50000`cm. If the value is lower than the default loiter radius set in `Advanced Tuning`, it will be set to the default loiter radius. This only effects the `POSHOLD` flight mode. |
 
 ### Operands
 
@@ -124,7 +124,8 @@ IPF can be edited using INAV Configurator user interface, of via CLI
 | 30            | ACTIVE_WAYPOINT_ACTION | See ACTIVE_WAYPOINT_ACTION paragraph |
 | 31            | 3D HOME_DISTANCE      | in `meters`, calculated from HOME_DISTANCE and ALTITUDE using Pythagorean theorem |
 | 32            | CROSSFIRE LQ          | Crossfire Link quality as returned by the CRSF protocol   | 
-| 33            | CROSSFIRE SNR          | Crossfire SNR as returned by the CRSF protocol   | 
+| 33            | CROSSFIRE SNR         | Crossfire SNR as returned by the CRSF protocol   | 
+| 34            | LOITER_RADIUS         | in `cm`. Includes override if active |
 
 #### ACTIVE_WAYPOINT_ACTION
 

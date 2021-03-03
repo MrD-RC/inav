@@ -324,6 +324,12 @@ static int logicConditionCompute(
             return temporaryValue;
         break;
 
+        case LOGIC_CONDITION_LOITER_OVERRIDE:
+            logicConditionValuesByType[LOGIC_CONDITION_LOITER_OVERRIDE] = operandA;
+            LOGIC_CONDITION_GLOBAL_FLAG_ENABLE(LOGIC_CONDITION_GLOBAL_FLAG_OVERRIDE_LOITER_RADIUS);
+            return true;
+        break;
+
         default:
             return false;
             break; 
@@ -516,6 +522,10 @@ static int logicConditionGetFlightOperandValue(int operand) {
         #endif
             break;
 
+        case LOGIC_CONDITION_OPERAND_FLIGHT_LOITER_RADIUS:
+            return getLoiterRadiusOverride(navConfig()->fw.loiter_radius);
+        break;
+
         default:
             return 0;
             break;
@@ -697,5 +707,13 @@ int16_t getRcChannelOverride(uint8_t channel, int16_t originalValue) {
         return rcChannelOverrides[channel].value;
     } else {
         return originalValue;
+    }
+}
+
+uint16_t getLoiterRadiusOverride(uint16_t defaultLoiterRadius) {
+    if (LOGIC_CONDITION_GLOBAL_FLAG(LOGIC_CONDITION_GLOBAL_FLAG_OVERRIDE_LOITER_RADIUS)) {
+        return constrain(logicConditionValuesByType[LOGIC_CONDITION_LOITER_OVERRIDE], defaultLoiterRadius, 50000);
+    } else {
+        return defaultLoiterRadius;
     }
 }
