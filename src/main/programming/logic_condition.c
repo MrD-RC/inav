@@ -183,7 +183,7 @@ static int logicConditionCompute(
             break;
 
         case LOGIC_CONDITION_MUL:
-            return constrain(operandA * operandB, INT16_MIN, INT16_MAX);
+            return constrain(operandA * operandB, INT32_MIN, INT32_MAX);
             break;
 
         case LOGIC_CONDITION_DIV:
